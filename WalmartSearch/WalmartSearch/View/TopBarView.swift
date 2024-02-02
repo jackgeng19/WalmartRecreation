@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct TopBarView: View {
+    @ObservedObject var vm: ProductViewModel
+
     var body: some View {
         VStack {
             HStack{
@@ -16,7 +18,7 @@ struct TopBarView: View {
                     .padding(.leading, 18)
                     .fontWeight(.bold)
 
-                SearchView(viewModel: ProductViewModel())
+                SearchView(viewModel: vm)
                 
                 Image(systemName: "cart")
                     .foregroundColor(.white)
@@ -44,12 +46,12 @@ struct TopBarView: View {
                     .foregroundColor(.white)
                     .padding(.trailing, 18)
             }
-            .padding(.bottom, 9)
+            .padding(.bottom, 7)
         }
         .background(.blue)
     }
 }
 
 #Preview {
-    TopBarView()
+    TopBarView(vm: ProductViewModel())
 }

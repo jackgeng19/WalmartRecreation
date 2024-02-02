@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct HomeView: View {
+    @ObservedObject var vm: ProductViewModel
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            TopBarView(vm: vm)
+            ListView(vm: vm)
+                .padding(.top, -7)
+        }
+        TabView()
     }
 }
 
 #Preview {
-    HomeView()
+    HomeView(vm: ProductViewModel())
 }

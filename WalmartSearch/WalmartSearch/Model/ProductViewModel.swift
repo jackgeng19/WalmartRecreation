@@ -10,8 +10,10 @@ import Foundation
 @MainActor
 class ProductViewModel: ObservableObject {
     @Published var products: [Product] = []
+    @Published var cart: [Product] = []
     @Published var searchTerm: String = ""
-
+    @Published var product: Product = .sample
+    var searched: Bool = false
 
     func fetchAndPrintProducts() async {
         do {
@@ -28,6 +30,14 @@ class ProductViewModel: ObservableObject {
             printProducts() 
         } catch {
             print("Error: \(error)")
+        }
+        searched = true
+    }
+    
+    func printCart() {
+        print("ITEMS IN CART:")
+        for item in cart {
+            print(item)
         }
     }
     

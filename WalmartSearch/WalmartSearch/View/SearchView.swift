@@ -34,7 +34,7 @@ struct SearchView: View {
                     }
                 }
             }
-            .padding(EdgeInsets(top: 7, leading: 15, bottom: 7, trailing: -10))
+            .padding(EdgeInsets(top: 7, leading: 15, bottom: 7, trailing: 5))
             .background(.white)
             .cornerRadius(30.0)
             

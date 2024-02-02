@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProductView: View {
+    @ObservedObject var vm: ProductViewModel
     let product: Product
 
     var body: some View {
@@ -27,25 +28,23 @@ struct ProductView: View {
                     Text("Now $\(String(product.price)).00")
                         .font(.title3)
                         .fontWeight(.bold)
-                        .foregroundColor(.green)
-                        .padding(.bottom, 5)
-                        .padding(.top, -5)
+                        .foregroundColor(Color(red: 16 / 255, green: 120 / 255, blue: 12 / 255, opacity: 1))
+                        .padding(.top, -30)
                     
                     Text(product.title)
                         .font(.title3)
-                        .padding(.vertical, 7)
+                        .padding(.bottom, 10)
+                        .padding(.top, -10)
                     
                     HStack {
-                        ForEach(0..<5) { _ in
-                            Image(systemName: "star.fill")
-                                .foregroundColor(.yellow)
-                        }
+                        RatingStarView(rating: product.rating)
                         Text("\(product.rating, specifier: "%.1f")")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
                 }
                 .padding(.vertical, 7)
+                .padding(.trailing, 39)
             }
             .padding()
             .background(Color.white)
@@ -58,7 +57,7 @@ struct ProductView: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .font(.caption)
                         .foregroundColor(.blue)
-                        .padding(.leading, -99)
+                        .padding(.leading, -93)
                         .padding(.bottom, 7)
                     HStack {
                         Text("Free shipping, arrives")
@@ -70,10 +69,13 @@ struct ProductView: View {
                             .foregroundColor(.primary)
                             .padding(.leading, -5)
                     }
-                    .padding(.leading, -18)
+                    .padding(.leading, -10)
                     .padding(.bottom, 7)
                     
-                    Button(action: {}) {
+                    Button(action: {
+                        vm.cart.append(product)
+                        vm.printCart()
+                    }) {
                         Text("Add to cart")
                             .fontWeight(.bold)
                             .font(.caption)
@@ -85,7 +87,7 @@ struct ProductView: View {
                     .foregroundColor(.white)
                     .cornerRadius(38)
                     .padding(.horizontal, 5)
-                    .padding(.leading, -11)
+                    .padding(.leading, -18)
                     .padding(.trailing, 7)
                 }
 
@@ -95,26 +97,26 @@ struct ProductView: View {
         Divider()
     }
 }
-
-#Preview {
-    ProductView(product: Product(
-                   id: 1,
-                   title: "iPhone 9",
-                   description: "An apple mobile which is nothing like apple",
-                   price: 549,
-                   discountPercentage: 12.96,
-                   rating: 4.69,
-                   stock: 94,
-                   brand: "Apple",
-                   category: "smartphones",
-                   thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-                   images: [
-                       "https://cdn.dummyjson.com/product-images/1/1.jpg",
-                       "https://cdn.dummyjson.com/product-images/1/2.jpg",
-                       "https://cdn.dummyjson.com/product-images/1/3.jpg",
-                       "https://cdn.dummyjson.com/product-images/1/4.jpg",
-                       "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg"
-                   ]
-               )
-    )
-}
+//
+//#Preview {
+//    ProductView(product: Product(
+//                   id: 1,
+//                   title: "iPhone 9",
+//                   description: "An apple mobile which is nothing like apple",
+//                   price: 549,
+//                   discountPercentage: 12.96,
+//                   rating: 4.69,
+//                   stock: 94,
+//                   brand: "Apple",
+//                   category: "smartphones",
+//                   thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+//                   images: [
+//                       "https://cdn.dummyjson.com/product-images/1/1.jpg",
+//                       "https://cdn.dummyjson.com/product-images/1/2.jpg",
+//                       "https://cdn.dummyjson.com/product-images/1/3.jpg",
+//                       "https://cdn.dummyjson.com/product-images/1/4.jpg",
+//                       "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg"
+//                   ]
+//               )
+//    )
+//}

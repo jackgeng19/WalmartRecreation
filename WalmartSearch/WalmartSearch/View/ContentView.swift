@@ -8,22 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var vm = ProductViewModel()
-    
+    @StateObject var viewModel = ProductViewModel()
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-            SearchView(viewModel: vm)
-        }
-        .padding()
-        .onAppear {
-            Task {
-                await vm.fetchAndPrintProducts()
+        HomeView(vm: viewModel)
+            .task {
+                await viewModel.fetchAndPrintProducts()
             }
-        }
     }
 }
 
