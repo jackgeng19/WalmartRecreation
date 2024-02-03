@@ -9,6 +9,8 @@ import SwiftUI
 
 struct TopBarView: View {
     @ObservedObject var vm: ProductViewModel
+    @State private var showingCart = false // Added for cart view presentation
+
 
     var body: some View {
         VStack {
@@ -20,13 +22,29 @@ struct TopBarView: View {
 
                 SearchView(viewModel: vm)
                 
-                Image(systemName: "cart")
-                    .foregroundColor(.white)
-                    .padding(.trailing, 17)
-                    .fontWeight(.bold)
+                Button(action: {
+                    showingCart.toggle() // Toggle the state to show cart
+                }) {
+                    ZStack {
+                        Image(systemName: "cart")
+                            .foregroundColor(.white)
+                            .padding(.trailing, 17)
+                            .fontWeight(.bold)
+                        if !vm.cart.isEmpty {
+                            Text("\(vm.cart.count)")
+                                .font(.caption2)
+                                .padding(5)
+                                .foregroundColor(.white)
+                                .background(Color.red)
+                                .clipShape(Circle())
+                                .offset(x: -20, y: -10)
+                        }
+                    }
+                }
             }
             .padding(.top, 11)
             .padding(.bottom, 7)
+            .padding(.trailing, 1)
             HStack {
                 Image(systemName: "head.profile.arrow.forward.and.visionpro")
                     .foregroundColor(.yellow)
@@ -49,6 +67,9 @@ struct TopBarView: View {
             .padding(.bottom, 7)
         }
         .background(.blue)
+        .sheet(isPresented: $showingCart) {
+            CartView(viewModel: vm) // Present the cart view
+        }
     }
 }
 

@@ -41,6 +41,10 @@ class ProductViewModel: ObservableObject {
         }
     }
     
+    func removeFromCart(at index: IndexSet) {
+        cart.remove(atOffsets: index)
+    }
+    
     private func printProducts() {
         for product in products {
 //            print("Product ID: \(product.id), Title: \(product.title)")

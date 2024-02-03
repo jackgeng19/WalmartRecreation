@@ -17,6 +17,8 @@
 		4FA9F0AA2B6CA57F008C569F /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA9F0A92B6CA57F008C569F /* ListView.swift */; };
 		4FA9F0AD2B6CA5B6008C569F /* ProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA9F0AC2B6CA5B6008C569F /* ProductView.swift */; };
 		4FA9F0AF2B6CA5C3008C569F /* DetailPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA9F0AE2B6CA5C3008C569F /* DetailPageView.swift */; };
+		4FB32A012B6DCD0400B4E4FD /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB32A002B6DCD0400B4E4FD /* CartView.swift */; };
+		4FB32A032B6DD48900B4E4FD /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB32A022B6DD48900B4E4FD /* ProductDetailView.swift */; };
 		4FCE32232B6C750F00A20227 /* WalmartSearchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCE32222B6C750F00A20227 /* WalmartSearchApp.swift */; };
 		4FCE32252B6C750F00A20227 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCE32242B6C750F00A20227 /* ContentView.swift */; };
 		4FCE32272B6C751000A20227 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FCE32262B6C751000A20227 /* Assets.xcassets */; };
@@ -35,6 +37,8 @@
 		4FA9F0A92B6CA57F008C569F /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		4FA9F0AC2B6CA5B6008C569F /* ProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductView.swift; sourceTree = "<group>"; };
 		4FA9F0AE2B6CA5C3008C569F /* DetailPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPageView.swift; sourceTree = "<group>"; };
+		4FB32A002B6DCD0400B4E4FD /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
+		4FB32A022B6DD48900B4E4FD /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		4FCE321F2B6C750F00A20227 /* WalmartSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalmartSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FCE32222B6C750F00A20227 /* WalmartSearchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalmartSearchApp.swift; sourceTree = "<group>"; };
 		4FCE32242B6C750F00A20227 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -66,13 +70,10 @@
 		4FA9F0992B6C816A008C569F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4FB329FD2B6DCC7000B4E4FD /* MainPage */,
 				4FA9F0AB2B6CA59C008C569F /* ProductViews */,
 				4FCE32242B6C750F00A20227 /* ContentView.swift */,
-				4FA9F09A2B6C8180008C569F /* TabView.swift */,
-				4FA9F09C2B6C818E008C569F /* SearchView.swift */,
-				4FA9F0A52B6C86FF008C569F /* HomeView.swift */,
-				4FA9F0A72B6C9EEF008C569F /* TopBarView.swift */,
-				4FA9F0A92B6CA57F008C569F /* ListView.swift */,
+				4FB32A002B6DCD0400B4E4FD /* CartView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -91,8 +92,21 @@
 				4FA9F0AC2B6CA5B6008C569F /* ProductView.swift */,
 				4FA9F0AE2B6CA5C3008C569F /* DetailPageView.swift */,
 				4FD662542B6D94C600EB2915 /* RatingStarView.swift */,
+				4FB32A022B6DD48900B4E4FD /* ProductDetailView.swift */,
 			);
 			path = ProductViews;
+			sourceTree = "<group>";
+		};
+		4FB329FD2B6DCC7000B4E4FD /* MainPage */ = {
+			isa = PBXGroup;
+			children = (
+				4FA9F0A52B6C86FF008C569F /* HomeView.swift */,
+				4FA9F0A72B6C9EEF008C569F /* TopBarView.swift */,
+				4FA9F0A92B6CA57F008C569F /* ListView.swift */,
+				4FA9F09C2B6C818E008C569F /* SearchView.swift */,
+				4FA9F09A2B6C8180008C569F /* TabView.swift */,
+			);
+			path = MainPage;
 			sourceTree = "<group>";
 		};
 		4FCE32162B6C750F00A20227 = {
@@ -210,8 +224,10 @@
 				4FA9F09F2B6C81FD008C569F /* Product.swift in Sources */,
 				4FA9F0AF2B6CA5C3008C569F /* DetailPageView.swift in Sources */,
 				4FA9F0A42B6C839F008C569F /* SearchService.swift in Sources */,
+				4FB32A012B6DCD0400B4E4FD /* CartView.swift in Sources */,
 				4FA9F0AD2B6CA5B6008C569F /* ProductView.swift in Sources */,
 				4FD662552B6D94C600EB2915 /* RatingStarView.swift in Sources */,
+				4FB32A032B6DD48900B4E4FD /* ProductDetailView.swift in Sources */,
 				4FA9F0A62B6C86FF008C569F /* HomeView.swift in Sources */,
 				4FA9F09B2B6C8180008C569F /* TabView.swift in Sources */,
 				4FCE32232B6C750F00A20227 /* WalmartSearchApp.swift in Sources */,

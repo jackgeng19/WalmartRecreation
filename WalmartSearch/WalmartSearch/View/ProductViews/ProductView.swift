@@ -10,18 +10,28 @@ import SwiftUI
 struct ProductView: View {
     @ObservedObject var vm: ProductViewModel
     let product: Product
+    @State private var showProductDetail = false // State variable for navigation control
+
 
     var body: some View {
         VStack {
             HStack {
-                AsyncImage(url: URL(string: product.thumbnail)) { image in
-                    image.resizable()
-                } placeholder: {
-                    Color.gray.opacity(0.3)
+                Button(action: {
+                    showProductDetail = true // Trigger navigation
+                }) {
+                    AsyncImage(url: URL(string: product.thumbnail)) { image in
+                        image.resizable()
+                    } placeholder: {
+                        Color.gray.opacity(0.3)
+                    }
+                    .frame(height: 125)
+                    .cornerRadius(5)
+                    .padding(.bottom, 4)
                 }
-                .frame(height: 125)
-                .cornerRadius(5)
-                .padding(.bottom, 4)
+                .buttonStyle(PlainButtonStyle()) // Use PlainButtonStyle to avoid button appearance
+                .sheet(isPresented: $showProductDetail) {
+                    ProductDetailView(vm: vm, product: product)
+                }
 
                 // Product title and price
                 VStack (alignment: .leading) {
@@ -93,30 +103,29 @@ struct ProductView: View {
 
             }
         }
-
         Divider()
     }
 }
-//
-//#Preview {
-//    ProductView(product: Product(
-//                   id: 1,
-//                   title: "iPhone 9",
-//                   description: "An apple mobile which is nothing like apple",
-//                   price: 549,
-//                   discountPercentage: 12.96,
-//                   rating: 4.69,
-//                   stock: 94,
-//                   brand: "Apple",
-//                   category: "smartphones",
-//                   thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-//                   images: [
-//                       "https://cdn.dummyjson.com/product-images/1/1.jpg",
-//                       "https://cdn.dummyjson.com/product-images/1/2.jpg",
-//                       "https://cdn.dummyjson.com/product-images/1/3.jpg",
-//                       "https://cdn.dummyjson.com/product-images/1/4.jpg",
-//                       "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg"
-//                   ]
-//               )
-//    )
-//}
+
+#Preview {
+    ProductView(vm: ProductViewModel(), product: Product(
+                   id: 1,
+                   title: "iPhone 9",
+                   description: "An apple mobile which is nothing like apple",
+                   price: 549,
+                   discountPercentage: 12.96,
+                   rating: 4.69,
+                   stock: 94,
+                   brand: "Apple",
+                   category: "smartphones",
+                   thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+                   images: [
+                       "https://cdn.dummyjson.com/product-images/1/1.jpg",
+                       "https://cdn.dummyjson.com/product-images/1/2.jpg",
+                       "https://cdn.dummyjson.com/product-images/1/3.jpg",
+                       "https://cdn.dummyjson.com/product-images/1/4.jpg",
+                       "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg"
+                   ]
+               )
+    )
+}
