@@ -13,100 +13,119 @@ struct ProductDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 10) {
-                // Product thumbnail
-                AsyncImage(url: URL(string: product.thumbnail)) { image in
-                    image.resizable()
-                } placeholder: {
-                    ProgressView()
-                }
-                .aspectRatio(contentMode: .fit)
-
-                // Product title
-                Text(product.title)
-                    .font(.title)
-                    .fontWeight(.bold)
-
-                // Price and Discount
-                HStack {
-                    Text("$\(product.price).00")
-                        .font(.largeTitle)
-                        .fontWeight(.heavy)
-                        .foregroundColor(Color(red: 16 / 255, green: 120 / 255, blue: 12 / 255, opacity: 1))
-                    if product.discountPercentage > 0 {
-                        Text("\(product.discountPercentage, specifier: "%.1f")% off")
-                            .foregroundColor(.red)
-                            .font(.body)
-                            .fontWeight(.bold)
+            ZStack {
+                Button(action: {
+                    if vm.fav.contains(where: { $0.id == product.id }) {
+                        vm.removeFromFavorites(product)
+                    } else {
+                        vm.addToFavorites(product)
                     }
+                }) {
+                    Image(systemName: vm.fav.contains(where: { $0.id == product.id }) ? "heart.fill" : "heart")
+                        .foregroundColor(.red)
+                        .opacity(0.8)
+                        .padding(.leading, 300)
+                        .padding(.bottom, 200)
+                        .background(Color.white.opacity(0.6))
+                        .font(.title2)
+                        .fontWeight(.heavy)
                 }
+                .buttonStyle(BorderlessButtonStyle())
+                
+                VStack(alignment: .leading, spacing: 10) {
+                    AsyncImage(url: URL(string: product.thumbnail)) { image in
+                        image.resizable()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .aspectRatio(contentMode: .fit)
 
-                // Rating
-                HStack {
-                    RatingStarView(rating: product.rating)
-                    Text("\(product.rating, specifier: "%.1f")/5.0")
-                        .font(.title3)
+                    // Product title
+                    Text(product.title)
+                        .font(.title)
                         .fontWeight(.bold)
-                        .foregroundColor(.secondary)
-                }
 
-                // Stock availability
-                Text("Stock: \(product.stock) available")
-                    .font(.title2)
-                    .foregroundColor(product.stock > 0 ? Color(red: 16 / 255, green: 120 / 255, blue: 12 / 255, opacity: 1) : .red)
-
-                // Brand and Category
-                VStack(alignment: .leading) {
-                    Text("Brand: \(product.brand)")
-                    Text("Category: \(product.category)")
-                }
-                .font(.title3)
-                .fontWeight(.medium)
-                
-                Spacer()
-                
-                // Description
-                Text("Description:")
-                    .font(.headline)
-                    .fontWeight(.heavy)
-                    .foregroundColor(.blue)
-                Text(product.description)
-                    .font(.body)
-
-                // Additional Images
-                ScrollView(.horizontal, showsIndicators: false) {
+                    // Price and Discount
                     HStack {
-                        ForEach(product.images, id: \.self) { imageUrl in
-                            AsyncImage(url: URL(string: imageUrl)) { image in
-                                image.resizable()
-                            } placeholder: {
-                                Color.gray.opacity(0.3)
-                            }
-                            .frame(width: 100, height: 100)
-                            .cornerRadius(5)
+                        Text("$\(product.price).00")
+                            .font(.largeTitle)
+                            .fontWeight(.heavy)
+                            .foregroundColor(Color(red: 16 / 255, green: 120 / 255, blue: 12 / 255, opacity: 1))
+                        if product.discountPercentage > 0 {
+                            Text("\(product.discountPercentage, specifier: "%.1f")% off")
+                                .foregroundColor(.red)
+                                .font(.body)
+                                .fontWeight(.bold)
                         }
                     }
+
+                    // Rating
+                    HStack {
+                        RatingStarView(rating: product.rating)
+                        Text("\(product.rating, specifier: "%.1f")/5.0")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundColor(.secondary)
+                    }
+
+                    // Stock availability
+                    Text("Stock: \(product.stock) available")
+                        .font(.title2)
+                        .foregroundColor(product.stock > 0 ? Color(red: 16 / 255, green: 120 / 255, blue: 12 / 255, opacity: 1) : .red)
+
+                    // Brand and Category
+                    VStack(alignment: .leading) {
+                        Text("Brand: \(product.brand)")
+                        Text("Category: \(product.category)")
+                    }
+                    .font(.title3)
+                    .fontWeight(.medium)
+                    
+                    Spacer()
+                    
+                    // Description
+                    Text("Description:")
+                        .font(.headline)
+                        .fontWeight(.heavy)
+                        .foregroundColor(.blue)
+                    Text(product.description)
+                        .font(.body)
+
+                    // Additional Images
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(product.images, id: \.self) { imageUrl in
+                                AsyncImage(url: URL(string: imageUrl)) { image in
+                                    image.resizable()
+                                } placeholder: {
+                                    Color.gray.opacity(0.3)
+                                }
+                                .frame(width: 100, height: 100)
+                                .cornerRadius(5)
+                            }
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        vm.cart.append(product)
+                        vm.printCart()
+                    }) {
+                        Text("Add to cart")
+                            .fontWeight(.bold)
+                            .font(.title)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .padding(.horizontal, 5)
+                    .padding(.vertical, 15)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(38)
+                    .padding(.top, 55)
                 }
-                
-                Spacer()
-                
-                Button(action: {
-                    vm.cart.append(product)
-                    vm.printCart()
-                }) {
-                    Text("Add to cart")
-                        .fontWeight(.bold)
-                        .font(.title)
-                        .frame(maxWidth: .infinity)
-                }
-                .padding(.horizontal, 5)
-                .padding(.vertical, 15)
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(38)
-                .padding(.top, 55)
+                .padding()
             }
-            .padding()
         }
         .navigationTitle(product.title)
         .navigationBarTitleDisplayMode(.inline)
