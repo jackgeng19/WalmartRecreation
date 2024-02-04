@@ -129,6 +129,9 @@ struct ProductDetailView: View {
         }
         .navigationTitle(product.title)
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            vm.addToFavorites(product)
+        }
     }
 }
 

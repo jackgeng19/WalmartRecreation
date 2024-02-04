@@ -12,12 +12,14 @@ class ProductViewModel: ObservableObject {
     @Published var products: [Product] = []
     @Published var cart: [Product] = []
     @Published var fav: [Product] = []
+    @Published var recentlyViewed: [Product] = []
     @Published var searchTerm: String = ""
     @Published var product: Product = .sample
     var searched: Bool = false
     
     init() {
         loadFavorites()
+        loadRecentlyViewedProducts()
     }
 
     func fetchAndPrintProducts() async {
@@ -80,6 +82,30 @@ class ProductViewModel: ObservableObject {
         if let savedFavorites = UserDefaults.standard.data(forKey: "Favorites"),
            let decodedFavorites = try? JSONDecoder().decode([Product].self, from: savedFavorites) {
             fav = decodedFavorites
+        }
+    }
+    
+    func addRecentlyViewedProduct(_ product: Product) {
+        // Avoid duplicating the product in the list (that's why Product has to conform Equatable)
+        if !recentlyViewed.contains(where: { $0.id == product.id }) {
+            recentlyViewed.insert(product, at: 0) // Add at the beginning
+            if recentlyViewed.count > 10 { // Limit the number of stored products
+                recentlyViewed.removeLast()
+            }
+            saveRecentlyViewedProducts()
+        }
+    }
+
+    private func saveRecentlyViewedProducts() {
+        if let encoded = try? JSONEncoder().encode(recentlyViewed) {
+            UserDefaults.standard.set(encoded, forKey: "RecentlyViewedProducts")
+        }
+    }
+
+    private func loadRecentlyViewedProducts() {
+        if let savedProducts = UserDefaults.standard.data(forKey: "RecentlyViewedProducts"),
+           let decodedProducts = try? JSONDecoder().decode([Product].self, from: savedProducts) {
+            recentlyViewed = decodedProducts
         }
     }
 }

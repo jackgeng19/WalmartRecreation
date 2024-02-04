@@ -1,14 +1,21 @@
+//
+//  RecentlyViewedView.swift
+//  WalmartSearch
+//
+//  Created by Qicheng Geng on 2/3/24.
+//
+
 import SwiftUI
 
-struct CartView: View {
+
+struct RecentlyViewedView: View {
     @ObservedObject var viewModel: ProductViewModel
-    @State private var showingRecentlyViewed = false
 
     var body: some View {
         NavigationView {
             VStack {
                 List {
-                    ForEach(viewModel.cart, id: \.id) { product in
+                    ForEach(viewModel.fav, id: \.id) { product in
                         NavigationLink(destination: ProductDetailView(vm: viewModel, product: product)) {
                             HStack {
                                 AsyncImage(url: URL(string: product.thumbnail)) { image in
@@ -41,41 +48,25 @@ struct CartView: View {
                     
                     Spacer()
 
-                    Text("$\(viewModel.cart.reduce(0) { $0 + $1.price }).00")
+                    Text("$\(viewModel.fav.reduce(0) { $0 + $1.price }).00")
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(Color(red: 16 / 255, green: 120 / 255, blue: 12 / 255, opacity: 1))
                 }
                 .padding()
                 
-                Button("Checkout") {
+                Button("Add to Cart") {
                     // Do Nothing
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(Color.blue)
+                .background(Color.green)
                 .foregroundColor(.white)
                 .cornerRadius(10)
                 .padding()
                 .font(.title)
             }
-            .navigationTitle("Cart")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        showingRecentlyViewed = true
-                    }) {
-                        Image(systemName: "clock.arrow.circlepath")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .padding(.trailing, 7)
-                            .padding(.top, 50)
-                    }
-                }
-            }
-            .sheet(isPresented: $showingRecentlyViewed) {
-                RecentlyViewedView(viewModel: viewModel)
-            }
+            .navigationTitle("Recently Viewed")
         }
     }
 
@@ -85,8 +76,9 @@ struct CartView: View {
 }
 
 
-struct CartView_Previews: PreviewProvider {
-    static var previews: some View {
-        CartView(viewModel: ProductViewModel())
-    }
-}
+//struct CartView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CartView(viewModel: ProductViewModel())
+//    }
+//}
+
