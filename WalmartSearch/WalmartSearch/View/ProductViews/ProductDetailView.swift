@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ProductDetailView: View {
     @ObservedObject var vm: ProductViewModel
     let product: Product
+    @State private var showingShareSheet = false
 
     var body: some View {
         ScrollView {
@@ -31,6 +33,22 @@ struct ProductDetailView: View {
                         .fontWeight(.heavy)
                 }
                 .buttonStyle(BorderlessButtonStyle())
+                
+                Button(action: {
+                                        showingShareSheet = true
+                                    }) {
+                                        Image(systemName: "square.and.arrow.up")
+                                            .foregroundColor(.blue)
+                                            .opacity(0.8)
+                                            .padding()
+                                            .background(Color.white.opacity(0.6))
+                                            .font(.title2)
+                                    }
+                                    .padding(.leading, 300)
+                                    .padding(.bottom, 100)
+                                    .sheet(isPresented: $showingShareSheet) {
+                                        ShareSheet(items: [URL(string: product.thumbnail) ?? ""])
+                                    }
                 
                 VStack(alignment: .leading, spacing: 10) {
                     AsyncImage(url: URL(string: product.thumbnail)) { image in
@@ -132,6 +150,16 @@ struct ProductDetailView: View {
     }
 }
 
+struct ShareSheet: UIViewControllerRepresentable {
+    var items: [Any]
+    
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let controller = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        return controller
+    }
+    
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+}
 
 
 #Preview {
