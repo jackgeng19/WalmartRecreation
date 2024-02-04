@@ -15,6 +15,15 @@ class ProductViewModel: ObservableObject {
     @Published var recentlyViewed: [Product] = []
     @Published var searchTerm: String = ""
     @Published var product: Product = .sample
+    @Published var sortOption: String = SearchService.sortOptions[0].value {
+        didSet {
+            Task {
+                await sortProducts()
+
+            }
+        }
+    }
+
     var searched: Bool = false
     
     @Published var comments: [Comment] = [
@@ -104,4 +113,26 @@ class ProductViewModel: ObservableObject {
             recentlyViewed = decodedProducts
         }
     }
+    
+    func sortProducts() async {
+        switch sortOption {
+        case "best_match":
+            if !searchTerm.isEmpty && searched {
+                await searchProducts()
+            } else {
+                await fetchAndPrintProducts()
+            }
+        case "rating_in":
+            products.sort { $0.rating < $1.rating }
+        case "rating_de":
+            products.sort { $0.rating > $1.rating }
+        case "price_in":
+            products.sort { $0.price < $1.price }
+        case "price_de":
+            products.sort { $0.price > $1.price }
+        default:
+            break
+        }
+    }
+    
 }

@@ -9,13 +9,18 @@ import SwiftUI
 
 struct SearchView: View {
     @ObservedObject var viewModel: ProductViewModel
+    @State private var showingSheet = false
 
     var body: some View {
         HStack {
             HStack {
-                Image(systemName: "magnifyingglass")
-                    .foregroundColor(.primary)
-                    .fontWeight(.light)
+                Button(action: {
+                    showingSheet = true
+                }) {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.primary)
+                        .fontWeight(.light)
+                }
                 
                 TextField("Search", text: $viewModel.searchTerm)
                     .foregroundColor(.primary)
@@ -23,6 +28,9 @@ struct SearchView: View {
                         Task {
                             await viewModel.searchProducts()
                         }
+                    }
+                    .onTapGesture {
+                        viewModel.searched = false
                     }
                 
                 if !viewModel.searchTerm.isEmpty {
@@ -33,6 +41,11 @@ struct SearchView: View {
                             .foregroundColor(.gray)
                     }
                 }
+            }
+            .sheet(isPresented: $showingSheet) {
+                
+                Text("Sheet content goes here.")
+                
             }
             .padding(EdgeInsets(top: 7, leading: 15, bottom: 7, trailing: 5))
             .background(.white)

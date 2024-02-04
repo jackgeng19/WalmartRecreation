@@ -42,3 +42,17 @@ struct SearchService {
     }
 }
 
+extension SearchService {
+    struct SortOption {
+        let title: String
+        let value: String
+    }
+    
+    public static let sortOptions: [SortOption] = [
+        .init(title: "Best Match", value: "best_match"),
+        .init(title: "Rating Increasing", value: "rating_in"),
+        .init(title: "Rating decreasing", value: "rating_de"),
+        .init(title: "Price Increasing", value: "price_in"),
+        .init(title: "Price Decreasing", value: "price_de")
+    ]
+}
