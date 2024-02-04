@@ -15,7 +15,7 @@ struct RecentlyViewedView: View {
         NavigationView {
             VStack {
                 List {
-                    ForEach(viewModel.fav, id: \.id) { product in
+                    ForEach(viewModel.recentlyViewed, id: \.id) { product in
                         NavigationLink(destination: ProductDetailView(vm: viewModel, product: product)) {
                             HStack {
                                 AsyncImage(url: URL(string: product.thumbnail)) { image in
@@ -55,8 +55,9 @@ struct RecentlyViewedView: View {
                 }
                 .padding()
                 
-                Button("Add to Cart") {
-                    // Do Nothing
+                Button("Add to Cart & Delete") {
+                    viewModel.addToCart(products: viewModel.recentlyViewed)
+                    viewModel.recentlyViewed.removeAll()
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
@@ -76,9 +77,9 @@ struct RecentlyViewedView: View {
 }
 
 
-//struct CartView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CartView(viewModel: ProductViewModel())
-//    }
-//}
+struct RecentlyViewedViewPreviews: PreviewProvider {
+    static var previews: some View {
+        RecentlyViewedView(viewModel: ProductViewModel())
+    }
+}
 

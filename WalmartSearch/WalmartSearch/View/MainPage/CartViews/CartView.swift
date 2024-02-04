@@ -66,10 +66,10 @@ struct CartView: View {
                         showingRecentlyViewed = true
                     }) {
                         Image(systemName: "clock.arrow.circlepath")
-                            .font(.title)
+                            .font(.title2)
                             .fontWeight(.bold)
                             .padding(.trailing, 7)
-                            .padding(.top, 50)
+                            .padding(.top, 10)
                     }
                 }
             }

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CommentView: View {
     @ObservedObject var viewModel: ProductViewModel
+    @State private var showingCommentInput = false
+    @State private var newCommentText = ""
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -31,6 +33,8 @@ struct CommentView: View {
             }
             
             Button("Say something...") {
+                showingCommentInput = true
+                newCommentText = ""
             }
             .padding(.horizontal, 40)
             .padding(.vertical, 15)
@@ -40,8 +44,20 @@ struct CommentView: View {
             .padding(.top, 12)
             .padding(.leading, 50)
             .font(.title2)
+            .alert("New Comment", isPresented: $showingCommentInput, actions: {
+                Button("Post", action: postComment)
+                Button("Cancel", role: .cancel) { }
+                TextField("Enter your comment", text: $newCommentText)
+            }, message: {
+                
+            })
         }
         .padding()
+    }
+    
+    private func postComment() {
+        let newComment = Comment(user: User(profileImage: "👤", userName: "Anonymous"), timestamp: Date(), commentString: newCommentText)
+        viewModel.comments.append(newComment)
     }
 }
 

@@ -36,9 +36,13 @@ class ProductViewModel: ObservableObject {
         loadRecentlyViewedProducts()
     }
 
-    func printFav() {
+    func printFavAndRV() {
         print("ITEMS IN FAV:")
         for item in fav {
+            print(item)
+        }
+        print("ITEMS IN RV:")
+        for item in recentlyViewed {
             print(item)
         }
     }
@@ -80,9 +84,7 @@ class ProductViewModel: ObservableObject {
     }
     
     func addToFavorites(_ product: Product) {
-        
             fav.append(product)
-        
     }
     
     func removeFromFavorites(product: Product) {
@@ -132,6 +134,12 @@ class ProductViewModel: ObservableObject {
             products.sort { $0.price > $1.price }
         default:
             break
+        }
+    }
+    
+    func addToCart(products: [Product]) {
+        for product in products {
+            cart.append(product)
         }
     }
     

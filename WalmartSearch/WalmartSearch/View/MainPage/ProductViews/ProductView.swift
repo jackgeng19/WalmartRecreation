@@ -18,7 +18,8 @@ struct ProductView: View {
             HStack {
                 Button(action: {
                     showProductDetail = true
-                    vm.printFav()
+                    vm.addRecentlyViewedProduct(product)
+                    vm.printFavAndRV()
                 }) {
                     AsyncImage(url: URL(string: product.thumbnail)) { image in
                         image.resizable()
@@ -29,7 +30,7 @@ struct ProductView: View {
                     .cornerRadius(5)
                     .padding(.bottom, 4)
                 }
-                .buttonStyle(PlainButtonStyle()) // Use PlainButtonStyle to avoid button appearance
+                .buttonStyle(PlainButtonStyle())
                 .sheet(isPresented: $showProductDetail) {
                     ProductDetailView(vm: vm, product: product)
                 }
