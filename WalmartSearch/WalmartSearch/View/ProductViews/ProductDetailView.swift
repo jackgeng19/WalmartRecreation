@@ -20,14 +20,14 @@ struct ProductDetailView: View {
                     if vm.fav.contains(where: { $0.id == product.id }) {
                         vm.removeFromFavorites(product: product)
                     } else {
-                        vm.addToFavorites(product: product)
+                        vm.addToFavorites(product)
                     }
                 }) {
                     Image(systemName: vm.fav.contains(where: { $0.id == product.id }) ? "heart.fill" : "heart")
                         .foregroundColor(.red)
                         .opacity(0.8)
                         .padding(.leading, 300)
-                        .padding(.bottom, 200)
+                        .padding(.bottom, 500)
                         .background(Color.white.opacity(0.6))
                         .font(.title2)
                         .fontWeight(.heavy)
@@ -45,7 +45,7 @@ struct ProductDetailView: View {
                                             .font(.title2)
                                     }
                                     .padding(.leading, 300)
-                                    .padding(.bottom, 100)
+                                    .padding(.bottom, 400)
                                     .sheet(isPresented: $showingShareSheet) {
                                         ShareSheet(items: [URL(string: product.thumbnail) ?? ""])
                                     }
@@ -58,12 +58,10 @@ struct ProductDetailView: View {
                     }
                     .aspectRatio(contentMode: .fit)
 
-                    // Product title
                     Text(product.title)
                         .font(.title)
                         .fontWeight(.bold)
 
-                    // Price and Discount
                     HStack {
                         Text("$\(product.price).00")
                             .font(.largeTitle)
@@ -77,7 +75,6 @@ struct ProductDetailView: View {
                         }
                     }
 
-                    // Rating
                     HStack {
                         RatingStarView(rating: product.rating)
                         Text("\(product.rating, specifier: "%.1f")/5.0")
@@ -86,12 +83,10 @@ struct ProductDetailView: View {
                             .foregroundColor(.secondary)
                     }
 
-                    // Stock availability
                     Text("Stock: \(product.stock) available")
                         .font(.title2)
                         .foregroundColor(product.stock > 0 ? Color(red: 16 / 255, green: 120 / 255, blue: 12 / 255, opacity: 1) : .red)
 
-                    // Brand and Category
                     VStack(alignment: .leading) {
                         Text("Brand: \(product.brand)")
                         Text("Category: \(product.category)")
@@ -100,8 +95,7 @@ struct ProductDetailView: View {
                     .fontWeight(.medium)
                     
                     Spacer()
-                    
-                    // Description
+
                     Text("Description:")
                         .font(.headline)
                         .fontWeight(.heavy)
@@ -109,7 +103,6 @@ struct ProductDetailView: View {
                     Text(product.description)
                         .font(.body)
 
-                    // Additional Images
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             ForEach(product.images, id: \.self) { imageUrl in
@@ -123,8 +116,18 @@ struct ProductDetailView: View {
                             }
                         }
                     }
+            
+                    Text("Comments")
+                        .font(.title2)
+                        .fontWeight(.heavy)
+                        .padding(.top)
+                        .padding(.horizontal, 5)
                     
-                    Spacer()
+                    CommentView(viewModel: vm)
+                        .border(Color.gray, width: 2)
+                        .cornerRadius(20)
+                        .padding(.top, 7)
+
                     
                     Button(action: {
                         vm.cart.append(product)

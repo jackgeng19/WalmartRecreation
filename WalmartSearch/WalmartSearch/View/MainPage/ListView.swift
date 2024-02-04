@@ -15,12 +15,20 @@ struct ListView: View {
             VStack {
                 if !vm.searchTerm.isEmpty && vm.searched {
                     HStack {
-                        Text("Results for \"\(vm.searchTerm)\" (\(vm.products.count))")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .padding(.leading, -180)
-                            .padding(.top, 10)
-                            .padding(.bottom, -5)
+                        if vm.products.isEmpty {
+                            // Display a message when no products are found
+                            Text("Oops, there seems no results for \"\(vm.searchTerm)\"")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .padding()
+                                .multilineTextAlignment(.center) // Center align the text
+                        } else {
+                            // Display search results count
+                            Text("Results for \"\(vm.searchTerm)\" (\(vm.products.count))")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .padding(.top, 10)
+                        }
                     }
                 }
                 ForEach(vm.products, id: \.id) { product in
@@ -31,6 +39,6 @@ struct ListView: View {
     }
 }
 
-//#Preview {
-//    ListView(vm: ProductViewModel())
-//}
+#Preview {
+    ListView(vm: ProductViewModel())
+}

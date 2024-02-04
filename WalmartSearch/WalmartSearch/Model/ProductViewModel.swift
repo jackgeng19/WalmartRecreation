@@ -17,6 +17,12 @@ class ProductViewModel: ObservableObject {
     @Published var product: Product = .sample
     var searched: Bool = false
     
+    @Published var comments: [Comment] = [
+        Comment(user: User(profileImage: "🐙", userName: "Ms. Squid"), timestamp: Date(), commentString: "Love this product!"),
+        Comment(user: User(profileImage: "🐌", userName: "Mr. Snail"), timestamp: Date().addingTimeInterval(-86400 * 2), commentString: "Delivery speed is slower than mine"),
+        // Add more comments as needed
+    ]
+    
     init() {
         loadRecentlyViewedProducts()
     }
@@ -64,7 +70,7 @@ class ProductViewModel: ObservableObject {
         }
     }
     
-    func addToFavorites(product: Product) {
+    func addToFavorites(_ product: Product) {
         
             fav.append(product)
         
