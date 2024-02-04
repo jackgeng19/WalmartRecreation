@@ -18,10 +18,15 @@ class ProductViewModel: ObservableObject {
     var searched: Bool = false
     
     init() {
-        loadFavorites()
         loadRecentlyViewedProducts()
     }
 
+    func printFav() {
+        print("ITEMS IN FAV:")
+        for item in fav {
+            print(item)
+        }
+    }
     func fetchAndPrintProducts() async {
         do {
             self.products = try await SearchService.findProducts()
@@ -59,31 +64,16 @@ class ProductViewModel: ObservableObject {
         }
     }
     
-    func addToFavorites(_ product: Product) {
-        if !fav.contains(where: { $0.id == product.id }) {
+    func addToFavorites(product: Product) {
+        
             fav.append(product)
-            saveFavorites()
-        }
+        
     }
     
-    func removeFromFavorites(_ product: Product) {
+    func removeFromFavorites(product: Product) {
         fav.removeAll { $0.id == product.id }
-        saveFavorites()
     }
     
-    private func saveFavorites() {
-        if let encoded = try? JSONEncoder().encode(fav) {
-            UserDefaults.standard.set(encoded, forKey: "Favorites")
-        }
-    }
-    
-    private func loadFavorites() {
-        // Store small amounts of data persustently as app launches
-        if let savedFavorites = UserDefaults.standard.data(forKey: "Favorites"),
-           let decodedFavorites = try? JSONDecoder().decode([Product].self, from: savedFavorites) {
-            fav = decodedFavorites
-        }
-    }
     
     func addRecentlyViewedProduct(_ product: Product) {
         // Avoid duplicating the product in the list (that's why Product has to conform Equatable)

@@ -16,9 +16,9 @@ struct ProductDetailView: View {
             ZStack {
                 Button(action: {
                     if vm.fav.contains(where: { $0.id == product.id }) {
-                        vm.removeFromFavorites(product)
+                        vm.removeFromFavorites(product: product)
                     } else {
-                        vm.addToFavorites(product)
+                        vm.addToFavorites(product: product)
                     }
                 }) {
                     Image(systemName: vm.fav.contains(where: { $0.id == product.id }) ? "heart.fill" : "heart")
@@ -129,9 +129,6 @@ struct ProductDetailView: View {
         }
         .navigationTitle(product.title)
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            vm.addToFavorites(product)
-        }
     }
 }
 

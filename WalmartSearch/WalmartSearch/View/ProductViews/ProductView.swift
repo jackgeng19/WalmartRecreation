@@ -17,7 +17,8 @@ struct ProductView: View {
         VStack {
             HStack {
                 Button(action: {
-                    showProductDetail = true // Trigger navigation
+                    showProductDetail = true
+                    vm.printFav()
                 }) {
                     AsyncImage(url: URL(string: product.thumbnail)) { image in
                         image.resizable()
